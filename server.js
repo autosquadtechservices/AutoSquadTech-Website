@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 const app = express();
 
@@ -17,7 +18,13 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
-app.get('/contact', (req, res) => {
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: { error: 'Too many requests, please try again later.' },
+});
+
+app.get('/contact', contactLimiter, (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'contact.html'));
 });
 
