@@ -1,13 +1,11 @@
 {
-  "name": "autosquad-backend",
+  "name": "autosquad-frontend",
   "version": "1.0.0",
-  "description": "Backend server for AutoSquad website",
-  "main": "server.js",
+  "description": "Frontend for AutoSquad website",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "live-server --port=3000 --open=./index.html --watch=."
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "live-server": "^1.2.1"
   }
 }
