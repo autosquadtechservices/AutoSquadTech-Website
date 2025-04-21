@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const he = require('he');
 const app = express();
 
 const nodemailer = require('nodemailer');
@@ -101,10 +102,10 @@ app.post('/contact', async (req, res) => {
       subject: `New Contact Form Submission from ${name}`,
       html: `
         <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${countryCode} ${phone}</p>
-        <p><strong>Message:</strong> ${message}</p>
+        <p><strong>Name:</strong> ${he.encode(name)}</p>
+        <p><strong>Email:</strong> ${he.encode(email)}</p>
+        <p><strong>Phone:</strong> ${he.encode(countryCode)} ${he.encode(phone)}</p>
+        <p><strong>Message:</strong> ${he.encode(message)}</p>
         <p><strong>Received:</strong> ${new Date().toLocaleString()}</p>
       `,
     };
