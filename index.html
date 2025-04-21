@@ -683,27 +683,31 @@
     </section>
 
     <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-title">
-                <h2>Contact Us</h2>
-                <p>Reach out to learn more about how we can help with your automotive needs</p>
-            </div>
-            <div class="contact-container" style="display: flex; justify-content: center;">
-                <div class="contact-form" style="max-width: 500px; width: 100%; margin: 2rem auto; background: white; padding: 2.5rem 3rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); color: black; font-size: 1.25rem; min-height: 350px;">
-                    <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
-                        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
-                        <input type="hidden" name="redirect" value="https://autosquadtech.com/?submitted=true" />
-                        <input type="text" name="name" required placeholder="Your Name" style="padding: 1.25rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1.25rem; font-weight: 500;" />
-                        <input type="email" name="email" required placeholder="Your Email" style="padding: 1.25rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1.25rem; font-weight: 500;" />
-                        <textarea name="message" required placeholder="Your Message" rows="6" style="padding: 1.25rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1.25rem; font-weight: 500; resize: vertical;"></textarea>
-                        <button type="submit" style="padding: 1.25rem; background-color: var(--primary); color: white; border: none; border-radius: 6px; font-size: 1.25rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease;">Submit</button>
-                    </form>
-                    <div class="success-message" id="successMessage" style="display:none; color: var(--primary); text-align: center; margin-top: 1.5rem; font-weight: 700; font-size: 1.25rem;">Thank you! Your message has been sent.</div>
-                    <div class="error-message" id="errorMessage" style="display:none; color: red; text-align: center; margin-top: 1.5rem; font-weight: 700; font-size: 1.25rem;">Oops! Something went wrong. Please try again.</div>
+            <div class="container">
+                <div class="section-title">
+                    <h2>Contact Us</h2>
+                    <p>Reach out to learn more about how we can help with your automotive needs</p>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; max-width: 900px; margin: 0 auto;">
+                    <div class="contact-container" style="flex: 1 1 400px; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); color: black; font-size: 1.1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+                            <input type="hidden" name="access_key" value="fbf96684-162f-48c3-b402-2353e518044e" />
+                            <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+                            <input type="hidden" name="redirect" value="https://autosquadtech.com/?submitted=true" />
+                            <input type="text" name="name" required placeholder="Your Name" style="padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-weight: 500;" />
+                            <input type="email" name="email" required placeholder="Your Email" style="padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-weight: 500;" />
+                            <textarea name="message" required placeholder="Your Message" rows="6" style="padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-weight: 500; resize: vertical;"></textarea>
+                            <button type="submit" style="padding: 0.75rem 1.5rem; background-color: var(--primary); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease;">Submit</button>
+                        </form>
+                    </div>
+                    <div class="contact-info" style="flex: 1 1 400px; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); color: black; font-size: 1.1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary);">Our Information</h3>
+                        <p><strong>Address:</strong> Hyderabad - Telangana, India</p>
+                        <p><strong>Email:</strong><a href="mailto:info@autosquadtech.com" style="color: var(--primary); text-decoration: none;"> info@autosquadtech.com</a></p>
+                        <p><strong>Working Hours (IST) :</strong><br />Mon - Fri: 9:00 AM - 6:00 PM<br />Sat: 10:00 AM - 2:00 PM<br />Sun: Closed</p>
+                    </div>
                 </div>
             </div>
-        </div>
     </section>
 
     <footer>
@@ -1071,91 +1075,7 @@
         updateLanguage(languageSelector.value);
     </script>
     <script>
-        // Show thank you message if redirected after form submission
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('submitted') === 'true') {
-                const thankYouMessage = document.createElement('div');
-                thankYouMessage.id = 'thankYouMessage';
-                thankYouMessage.style.position = 'fixed';
-                thankYouMessage.style.top = '20px';
-                thankYouMessage.style.left = '50%';
-                thankYouMessage.style.transform = 'translateX(-50%)';
-                thankYouMessage.style.backgroundColor = 'var(--primary)';
-                thankYouMessage.style.color = 'white';
-                thankYouMessage.style.padding = '15px 30px';
-                thankYouMessage.style.borderRadius = '8px';
-                thankYouMessage.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
-                thankYouMessage.style.fontSize = '1.2rem';
-                thankYouMessage.style.zIndex = '10000';
-                thankYouMessage.textContent = 'Thank you! Our team will reach out to you soon.';
-                document.body.appendChild(thankYouMessage);
-                // Remove the query param from URL without reloading
-                if (window.history && window.history.replaceState) {
-                    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-                    window.history.replaceState({}, document.title, cleanUrl);
-                }
-                // Auto remove message and redirect after 4 seconds
-                setTimeout(() => {
-                    if (thankYouMessage.parentNode) {
-                        thankYouMessage.parentNode.removeChild(thankYouMessage);
-                    }
-                    window.location.href = '/';
-                }, 4000);
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('contactForm');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            const urlParams = new URLSearchParams(window.location.search);
-
-            // Show thank you message if redirected after form submission
-            if (urlParams.get('submitted') === 'true') {
-                successMessage.style.display = 'block';
-                // Remove the query param from URL without reloading
-                if (window.history && window.history.replaceState) {
-                    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-                    window.history.replaceState({}, document.title, cleanUrl);
-                }
-                // Auto remove message and redirect after 4 seconds
-                setTimeout(() => {
-                    successMessage.style.display = 'none';
-                    window.location.href = '/';
-                }, 4000);
-            }
-
-            // Handle form submission with JavaScript
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const formData = new FormData(form);
-                try {
-                    const response = await fetch(form.action, {
-                        method: form.method,
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-                    if (response.ok) {
-                        successMessage.style.display = 'block';
-                        form.reset();
-                        // Auto remove message and redirect after 4 seconds
-                        setTimeout(() => {
-                            successMessage.style.display = 'none';
-                            window.location.href = '/';
-                        }, 4000);
-                    } else {
-                        throw new Error('Form submission failed');
-                    }
-                } catch (error) {
-                    errorMessage.style.display = 'block';
-                    console.error('Form submission error:', error);
-                }
-            });
-        });
+        // Remove JavaScript form submission handler to allow normal form submission to web3forms
     </script>
 </body>
 </html>
