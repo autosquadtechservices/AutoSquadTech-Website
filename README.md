@@ -15,21 +15,6 @@ At **AutoSquadTech**, we specialize in:
 
 ---
 
-## 📂 Repositories
-
-Explore our work:
-
-| Project | Description | Stack |
-|--------|-------------|-------|
-| [`autosquad-core`](https://github.com/AutoSquadTech/autosquad-core) | Core backend systems and APIs | Django, PostgreSQL |
-| [`autosquad-frontend`](https://github.com/AutoSquadTech/autosquad-frontend) | Web frontend for dashboard and analytics | React.js, Tailwind CSS |
-| [`autosquad-iot`](https://github.com/AutoSquadTech/autosquad-iot) | Vehicle IoT data collection and integration | Python, MQTT |
-| [`autosquad-ml`](https://github.com/AutoSquadTech/autosquad-ml) | AI/ML models for diagnostics and prediction | Python, Scikit-learn, TensorFlow |
-
-> More coming soon. Stay tuned!
-
----
-
 ## 🌍 Website
 
 Check us out at [**AutoSquadTech.com**](https://AutoSquadTech.com)
