@@ -6,7 +6,7 @@ async function addUser(username, password, role) {
   const pool = mysql.createPool({
     host: process.env.MYSQL_HOST || 'localhost',
     user: process.env.MYSQL_USER || 'root',
-    password: process.env.MYSQL_PASSWORD || 'your_mysql_password',
+    password: process.env.MYSQL_PASSWORD || 'autosquad@1525',
     database: process.env.MYSQL_DATABASE || 'autosquad_db',
     waitForConnections: true,
     connectionLimit: 10,
