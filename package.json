@@ -1,11 +1,18 @@
 {
-  "name": "autosquad-frontend",
+  "name": "autosquad-backend",
   "version": "1.0.0",
-  "description": "Frontend for AutoSquad website",
+  "description": "Backend server for AutoSquad website",
+  "main": "server.js",
   "scripts": {
-    "start": "live-server --port=3000 --open=./index.html --watch=."
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "devDependencies": {
-    "live-server": "^1.2.1"
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.5.0",
+    "mysql2": "^3.3.0"
   }
 }
