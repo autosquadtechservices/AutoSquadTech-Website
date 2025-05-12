@@ -4,7 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AutoSquad Technology Services</title>
-    <link rel="icon" href="https://www.autosquadtech.com/Logo.png" type="image/png">
+    <link rel="icon" type="image/x-icon" href="../Assets/Logo-Favicon.ico" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "AutoSquad Technology Services",
+      "url": "https://www.autosquadtech.com",
+      "logo": "https://www.autosquadtech.com/logo-favicon.ico"
+    }
+    </script>
     <style>
         :root {
             --primary: #e74c3c;
@@ -585,26 +594,27 @@
         <div class="container">
 <nav>
                 <div class="logo-company-container">
-                    <img src="Logo.png" alt="AutoSquad Logo" class="logo-img">
+                    <img src="../Assets/Logo.png" alt="AutoSquad Logo" class="logo-img">
                     <div class="company-name">AutoSquad Technology Services</div>
                 </div>
                 <ul class="nav-links">
                     <li><a href="#services">Services</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li>
-                        <select id="languageSelector" aria-label="Select Language" style="background-color: var(--dark); color: white; border-radius: 5px; border: none; padding: 5px 10px; font-size: 1rem; cursor: pointer;">
-                            <option value="en" selected>English</option>
-                            <option value="es">Español</option>
-                            <option value="fr">Français</option>
-                            <option value="de">Deutsch</option>
-                            <option value="zh">中文</option>
-                            <option value="ja">日本語</option>
-                            <option value="ru">Русский</option>
-                            <option value="ar">العربية</option>
-                        </select>
-                    </li>
-                </ul>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="signin.html">Sign In</a></li>
+                <li>
+                    <select id="languageSelector" aria-label="Select Language" style="background-color: var(--dark); color: white; border-radius: 5px; border: none; padding: 5px 10px; font-size: 1rem; cursor: pointer;">
+                        <option value="en" selected>English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ru">Русский</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </li>
+            </ul>
                 <button class="hamburger">☰</button>
         </nav>
 
@@ -636,7 +646,7 @@
             <img src="/api/placeholder/1200/800" alt="Car video background" class="video-background">
             <!-- In a real implementation, you would use this: --> 
             <video class="video-background" autoplay loop muted playsinline>
-                <source src="Car_Video_.mp4" type="video/mp4">
+                <source src="../Assets/Car_Video_.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -649,6 +659,7 @@
         </div>
     </section>
 
+
     <section id="services" class="services">
         <div class="container">
             <div class="section-title">
@@ -658,7 +669,7 @@
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-img">
-                        <img src="Embedded.PNG" alt="Service 1 image">
+                        <img src="../Assets/Embedded.PNG" alt="Service 1 image">
                     </div>
                     <div class="service-content">
                         <h3>Embedded System Development</h3>
@@ -667,7 +678,7 @@
                 </div>
                 <div class="service-card">
                     <div class="service-img">
-                        <img src="futurism-perspective-digital.jpg" alt="Service 2 image">
+                        <img src="../Assets/futurism-perspective-digital.jpg" alt="Service 2 image">
                     </div>
                     <div class="service-content">
                         <h3>Firmware Optimization & Integration</h3>
@@ -676,7 +687,7 @@
                 </div>
                 <div class="service-card">
                     <div class="service-img">
-                        <img src="Iot.jpg" alt="Service 3 image">
+                        <img src="../Assets/Iot.jpg" alt="Service 3 image">
                     </div>
                     <div class="service-content">
                         <h3>IoT & Connectivity Solutions</h3>
@@ -691,7 +702,7 @@
         <div class="container">
             <div class="about-container">
                 <div class="about-img">
-                    <img src="About.png" alt="AutoSquad Team" style="width:100%; height:100%; object-fit:cover;">
+                    <img src="../Assets/About.png" alt="AutoSquad Team" style="width:100%; height:100%; object-fit:cover;">
                 </div>
                 <div class="about-content">
                     <h2>About AutoSquad</h2>
@@ -1097,8 +1108,60 @@
         // Initialize page with default language
         updateLanguage(languageSelector.value);
     </script>
+
     <script>
-        // Remove JavaScript form submission handler to allow normal form submission to web3forms
+        // Login form handling
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginMessage.textContent = '';
+
+            const role = document.getElementById('roleSelect').value;
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+
+            if (!username || !password) {
+                loginMessage.textContent = 'Please enter username and password.';
+                loginMessage.style.color = 'red';
+                return;
+            }
+
+            try {
+const response = await fetch('http://127.0.0.1:5000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.role);
+
+                    loginMessage.textContent = 'Login successful! Redirecting...';
+                    loginMessage.style.color = 'green';
+
+                    // Redirect based on role
+                    if (data.role === 'admin') {
+                        window.location.href = 'frontend/admin.html';
+                    } else if (data.role === 'employee') {
+                        window.location.href = 'frontend/employee.html';
+                    } else {
+                        loginMessage.textContent = 'Unknown role.';
+                        loginMessage.style.color = 'red';
+                    }
+                } else {
+                    loginMessage.textContent = data.error || 'Login failed.';
+                    loginMessage.style.color = 'red';
+                }
+            } catch (error) {
+                loginMessage.textContent = 'Error connecting to server.';
+                loginMessage.style.color = 'red';
+            }
+        });
     </script>
 </body>
 </html>
