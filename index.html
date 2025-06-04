@@ -4,14 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>AutoSquad Technology Services</title>
-    <link rel="icon" type="image/x-icon" href="../Assets/Capture_1.PNG" />
+    <link rel="icon" type="image/x-icon" href="Logo.PNG" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "AutoSquad Technology Services",
       "url": "https://www.autosquadtech.com",
-      "logo": "https://www.autosquadtech.com/Capture_2.ico"
+      "logo": "https://www.autosquadtech.com/Logo-Favicon.ico"
     }
     </script>
     <style>
@@ -646,7 +646,7 @@
             <img src="/api/placeholder/1200/800" alt="Car video background" class="video-background">
             <!-- In a real implementation, you would use this: --> 
             <video class="video-background" autoplay loop muted playsinline>
-                <source src="../Assets/Car_Video_.mp4" type="video/mp4">
+                <source src="Car_Video_.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -669,7 +669,7 @@
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-img">
-                        <img src="../Assets/Embedded.PNG" alt="Service 1 image">
+                        <img src="Embedded.PNG" alt="Service 1 image">
                     </div>
                     <div class="service-content">
                         <h3>Embedded System Development</h3>
@@ -678,7 +678,7 @@
                 </div>
                 <div class="service-card">
                     <div class="service-img">
-                        <img src="../Assets/futurism-perspective-digital.jpg" alt="Service 2 image">
+                        <img src="futurism-perspective-digital.jpg" alt="Service 2 image">
                     </div>
                     <div class="service-content">
                         <h3>Firmware Optimization & Integration</h3>
@@ -687,7 +687,7 @@
                 </div>
                 <div class="service-card">
                     <div class="service-img">
-                        <img src="../Assets/Iot.jpg" alt="Service 3 image">
+                        <img src="Iot.jpg" alt="Service 3 image">
                     </div>
                     <div class="service-content">
                         <h3>IoT & Connectivity Solutions</h3>
@@ -702,7 +702,7 @@
         <div class="container">
             <div class="about-container">
                 <div class="about-img">
-                    <img src="../Assets/About.png" alt="AutoSquad Team" style="width:100%; height:100%; object-fit:cover;">
+                    <img src="About.png" alt="AutoSquad Team" style="width:100%; height:100%; object-fit:cover;">
                 </div>
                 <div class="about-content">
                     <h2>About AutoSquad</h2>
@@ -760,57 +760,7 @@
         }
     </style>
 
-    <!-- Turbo Boost Button -->
-    <button class="turbo-boost-btn">Turbo Boost</button>
-    <div class="turbo-boost-animation">🏎️</div>
 
-    <style>
-        .turbo-boost-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.4);
-            transition: background-color 0.3s, box-shadow 0.3s;
-            z-index: 1000;
-        }
-        .turbo-boost-btn:hover,
-        .turbo-boost-btn:focus {
-            background-color: #c0392b;
-            box-shadow: 0 6px 12px rgba(192, 57, 43, 0.6);
-            outline: none;
-        }
-        .turbo-boost-animation {
-            position: fixed;
-            bottom: 70px;
-            left: 0;
-            font-size: 5rem; /* increased size */
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 999;
-        }
-        .turbo-boost-animation.active {
-            opacity: 1;
-            animation: turboBoostMove 5s linear forwards;
-        }
-        @keyframes turboBoostMove {
-            0% {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            100% {
-                transform: translateX(100vw);
-                opacity: 0;
-            }
-        }
-    </style>
 
     <script>
         // Add transparency to header when at top, solid when scrolled
@@ -838,9 +788,7 @@
             });
         });
 
-        // Turbo Boost Animation
-        const turboBoostBtn = document.querySelector('.turbo-boost-btn');
-        const turboBoostAnimation = document.querySelector('.turbo-boost-animation');
+       
         
         // Secret Konami code sequence: up, up, down, down, left, right, left, right, B, A
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
