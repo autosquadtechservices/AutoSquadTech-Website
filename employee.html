@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Employee Attendance - AutoSquad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('../Assets/Emp-Ad-BG.png') no-repeat center center fixed;
+            background-size: cover;
+            padding: 2rem;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+        h2, button, #message, #logoutLink {
+            position: relative;
+            z-index: 1;
+        }
+        h2 {
+            margin-bottom: 1.5rem;
+        }
+        button {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+        }
+        #loginBtn {
+            background-color: #27ae60;
+        }
+        #loginBtn:hover {
+            background-color: #219150;
+        }
+        #logoutBtn {
+            background-color: #c0392b;
+        }
+        #logoutBtn:hover {
+            background-color: #992d22;
+        }
+        #message {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #ff4d4d;
+        }
+        #logoutLink {
+            display: block;
+            margin-top: 2rem;
+            text-align: center;
+            color: #ffffff;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Employee Attendance</h2>
+        <button id="loginBtn">Log Attendance In</button>
+        <button id="logoutBtn">Log Attendance Out</button>
+        <div id="message"></div>
+        <div id="logoutLink">Logout</div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        const messageDiv = document.getElementById('message');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const logoutLink = document.getElementById('logoutLink');
+
+        if (!token) {
+            alert('You are not logged in. Redirecting to sign in.');
+            window.location.href = 'signin.html';
+        }
+
+        async function attendanceAction(url) {
+            messageDiv.textContent = '';
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    messageDiv.style.color = 'green';
+                    messageDiv.textContent = data.message;
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = data.message || 'Error occurred';
+                }
+            } catch (error) {
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = 'Error connecting to server.';
+            }
+        }
+
+        loginBtn.addEventListener('click', () => {
+            attendanceAction('http://localhost:5000/api/attendance/login');
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            attendanceAction('http://localhost:5000/api/attendance/logout');
+        });
+
+        logoutLink.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'signin.html';
+        });
+    </script>
+</body>
+</html>

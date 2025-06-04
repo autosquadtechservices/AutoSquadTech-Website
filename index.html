@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AutoSquad Technology Services</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/Capture_1.PNG" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "AutoSquad Technology Services",
+      "url": "https://www.autosquadtech.com",
+      "logo": "https://www.autosquadtech.com/Capture_2.ico"
+    }
+    </script>
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #34495e;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            scroll-padding-top: 80px; /* offset for fixed header */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: rgba(44, 62, 80, 0.9);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        header.scrolled {
+            background-color: var(--dark);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .company-name {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            user-select: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+            transition: max-height 0.3s ease;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a:focus {
+            color: var(--primary);
+            outline: none;
+        }
+
+        /* Mobile menu styles */
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                flex-direction: column;
+                background-color: var(--dark);
+                position: fixed;
+                top: 60px;
+                right: 0;
+                width: 200px;
+                max-height: 0;
+                overflow: hidden;
+                border-radius: 0 0 0 8px;
+                box-shadow: -2px 2px 8px rgba(0,0,0,0.3);
+            }
+
+            .nav-links.active {
+                max-height: 500px; /* enough to show all links */
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+                margin-left: 0;
+                text-align: right;
+                padding-right: 20px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            #languageSelector {
+                margin: 10px 20px;
+                width: calc(100% - 40px);
+            }
+        }
+
+        /* Video Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 80px; /* offset for fixed header */
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translateX(-50%) translateY(-50%);
+            background-size: cover;
+            z-index: -1;
+            filter: brightness(0.6);
+            transition: transform 0.3s ease;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+            white-space: normal;
+            word-break: keep-all;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn:hover,
+        .btn:focus {
+            background-color: #c0392b;
+            box-shadow: 0 6px 12px rgba(192, 57, 43, 0.6);
+            outline: none;
+        }
+
+        .services {
+            padding: 80px 0;
+            text-align: center;
+            background-color: var(--light);
+        }
+
+        .section-title {
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .section-title p {
+            color: #7f8c8d;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .service-card:hover,
+        .service-card:focus-within {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            outline: none;
+        }
+
+        .service-img {
+            height: 200px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-img img,
+        .service-card:focus-within .service-img img {
+            transform: scale(1.05);
+        }
+
+        .service-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Added flexbox for about-container */
+        .about-container {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 40px 0;
+        }
+
+        .about-img {
+            flex: 1 1 400px;
+            max-width: 500px;
+            height: auto;
+        }
+
+        .about-content {
+            flex: 1 1 400px;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        /* Adjust header nav spacing */
+        nav {
+            gap: 10px;
+        }
+
+        /* Adjust hero content padding */
+        .hero-content {
+            padding: 0 40px;
+        }
+
+        /* Adjust services grid padding */
+        .services-grid {
+            padding: 0 20px;
+        }
+
+        /* Adjust contact container grid gap and padding */
+        .contact-container {
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        /* Footer container padding */
+        footer .container {
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* Responsive adjustments */
+        @media screen and (max-width: 768px) {
+            .about-container {
+                flex-direction: column;
+                padding: 20px 0;
+            }
+
+            .about-img,
+            .about-content {
+                max-width: 100%;
+                flex: 1 1 100%;
+                text-align: center;
+            }
+
+            .about-content {
+                padding: 0 20px;
+            }
+
+            .hero-content {
+                padding: 0 20px;
+            }
+
+            .services-grid {
+                padding: 0 10px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 0 10px;
+            }
+        }
+
+        .about-content a.btn {
+            margin-top: 20px;
+            display: inline-block;
+        }
+
+        .contact {
+            padding: 60px 0;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+        }
+
+        /* Fix Contact Us heading color for visibility */
+        #contact .section-title h2 {
+            color: white !important;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+            justify-content: center;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+            /* Added vertical alignment fix */
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 400px;
+            text-align: left;
+            font-size: 1rem;
+            padding-right: 20px;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .contact-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+            flex-shrink: 0;
+            width: 30px;
+            text-align: center;
+        }
+
+        .contact-item p,
+        .contact-item a {
+            margin: 0;
+            color: white;
+            text-decoration: none;
+            word-break: break-word;
+        }
+
+        .contact-item a:hover,
+        .contact-item a:focus {
+            color: var(--light);
+            text-decoration: underline;
+            outline: none;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 400px;
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        select[name="countryCode"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        select[name="countryCode"] {
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+            height: 46px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        input[name="phone"] {
+            border-radius: 0 5px 5px 0;
+            border: 1px solid #ccc;
+            padding: 12px;
+            flex: 1;
+        }
+
+        .phone-input-container {
+            display: flex;
+            gap: 0;
+            margin-bottom: 15px;
+        }
+
+        .contact-form textarea {
+            height: 150px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .contact-form button.btn {
+            width: fit-content;
+            padding: 14px 36px;
+            font-weight: 700;
+        }
+        
+        @media screen and (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+        
+        /* Contact info links styling */
+        .contact-info a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .contact-info a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        
+        /* Country code select and phone input styling */
+        select[name="countryCode"] {
+            border-right: none;
+            border-radius: 5px 0 0 5px;
+            height: 46px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: white;
+            padding: 12px;
+            border: 1px solid #ccc;
+            width: 120px; /* fixed smaller width */
+        }
+        
+        input[name="phone"] {
+            border-radius: 0 5px 5px 0;
+            border: 1px solid #ccc;
+            padding: 12px;
+            flex: 1 1 auto; /* allow to grow and fill remaining space */
+            min-width: 0; /* prevent overflow */
+        }
+    </style>
+</head>
+<body>
+<header>
+        <div class="container">
+<nav>
+                <div class="logo-company-container">
+                    <img src="../Assets/Capture_1.PNG" alt="AutoSquad Logo" class="logo-img">
+                    <div class="company-name">AutoSquad Technology Services</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="signin.html">Sign In</a></li>
+                <li>
+                    <select id="languageSelector" aria-label="Select Language" style="background-color: var(--dark); color: white; border-radius: 5px; border: none; padding: 5px 10px; font-size: 1rem; cursor: pointer;">
+                        <option value="en" selected>English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="de">Deutsch</option>
+                        <option value="zh">中文</option>
+                        <option value="ja">日本語</option>
+                        <option value="ru">Русский</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </li>
+            </ul>
+                <button class="hamburger">☰</button>
+        </nav>
+
+        <style>
+            .logo-company-container {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+        .logo-img {
+                height: 60px;
+                width: auto;
+            }
+.company-name {
+                color: white;
+                font-weight: bold;
+                font-size: 1.5rem;
+                line-height: 1;
+                user-select: none;
+            }
+        </style>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="video-container">
+            <div class="video-overlay"></div>
+            <!-- Using a placeholder image instead of actual video due to limitations -->
+            <img src="/api/placeholder/1200/800" alt="Car video background" class="video-background">
+            <!-- In a real implementation, you would use this: --> 
+            <video class="video-background" autoplay loop muted playsinline>
+                <source src="../Assets/Car_Video_.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>Accelerate your Vision</h1>
+                <p>"AutoSquad delivers smart solutions for automotive challenges and embedded systems, driving innovation and reliability on every road."</p>
+                <a href="#services" class="btn">Explore Our Services</a>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Services</h2>
+                <p>We offer a comprehensive range of automotive services to meet all your vehicle needs</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="../Assets/Embedded.PNG" alt="Service 1 image">
+                    </div>
+                    <div class="service-content">
+                        <h3>Embedded System Development</h3>
+                        <p>End-to-end design and development of custom embedded hardware and firmware tailored for your application needs.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="../Assets/futurism-perspective-digital.jpg" alt="Service 2 image">
+                    </div>
+                    <div class="service-content">
+                        <h3>Firmware Optimization & Integration</h3>
+                        <p>Boost performance and efficiency with expertly optimized firmware, seamless hardware-software integration, and real-time system tuning.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-img">
+                        <img src="../Assets/Iot.jpg" alt="Service 3 image">
+                    </div>
+                    <div class="service-content">
+                        <h3>IoT & Connectivity Solutions</h3>
+                        <p>Enable smart functionality with robust IoT integration, including wireless protocols like Bluetooth, Wi-Fi, LoRa, and secure cloud connectivity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-container">
+                <div class="about-img">
+                    <img src="../Assets/About.png" alt="AutoSquad Team" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div class="about-content">
+                    <h2>About AutoSquad</h2>
+                    <p>At AutoSquad, we build smart, powerful embedded systems that drive innovation.From concept to code to launch, we help companies create faster, smarter, and more connected products.</p>
+                    <p>Our team lives at the edge of technology, delivering custom solutions that power everything from cars to wearables. </p>
+                    <p>We’re fast, focused, and all-in on shaping the future with embedded tech.</p>
+                    <p></p>
+                    <a href="#contact" class="btn">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Contact Us</h2>
+                    <p>Reach out to learn more about how we can help with your automotive needs</p>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; max-width: 900px; margin: 0 auto;">
+                    <div class="contact-container" style="flex: 1 1 400px; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); color: black; font-size: 1.1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+                            <input type="hidden" name="access_key" value="fbf96684-162f-48c3-b402-2353e518044e" />
+                            <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+                            <input type="hidden" name="redirect" value="https://autosquadtech.com/?submitted=true" />
+                            <input type="text" name="name" required placeholder="Your Name" style="padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-weight: 500;" />
+                            <input type="email" name="email" required placeholder="Your Email" style="padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-weight: 500;" />
+                            <textarea name="message" required placeholder="Your Message" rows="6" style="padding: 0.75rem 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-weight: 500; resize: vertical;"></textarea>
+                            <button type="submit" style="padding: 0.75rem 1.5rem; background-color: var(--primary); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.3s ease;">Submit</button>
+                        </form>
+                    </div>
+                    <div class="contact-info" style="flex: 1 1 400px; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); color: black; font-size: 1.1rem; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary);">Our Information</h3>
+                        <p><strong>Address:</strong> Hyderabad - Telangana, India</p>
+                        <p><strong>Email:</strong><a href="mailto:info@autosquadtech.com" style="color: var(--primary); text-decoration: none;"> info@autosquadtech.com</a></p>
+                        <p><strong>Working Hours (IST) :</strong><br />Mon - Fri: 9:00 AM - 6:00 PM<br />Sat: 10:00 AM - 2:00 PM<br />Sun: Closed</p>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p style="font-size: 1.25rem;">&copy; 2025 AutoSquad Tech. All Rights Reserved.</p>
+        </div>
+    </footer>
+    <style>
+        footer {
+            background-color: var(--dark);
+            color: white;
+        }
+        footer .container {
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+
+    <!-- Turbo Boost Button -->
+    <button class="turbo-boost-btn">Turbo Boost</button>
+    <div class="turbo-boost-animation">🏎️</div>
+
+    <style>
+        .turbo-boost-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.4);
+            transition: background-color 0.3s, box-shadow 0.3s;
+            z-index: 1000;
+        }
+        .turbo-boost-btn:hover,
+        .turbo-boost-btn:focus {
+            background-color: #c0392b;
+            box-shadow: 0 6px 12px rgba(192, 57, 43, 0.6);
+            outline: none;
+        }
+        .turbo-boost-animation {
+            position: fixed;
+            bottom: 70px;
+            left: 0;
+            font-size: 5rem; /* increased size */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+        }
+        .turbo-boost-animation.active {
+            opacity: 1;
+            animation: turboBoostMove 5s linear forwards;
+        }
+        @keyframes turboBoostMove {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100vw);
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <script>
+        // Add transparency to header when at top, solid when scrolled
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Turbo Boost Animation
+        const turboBoostBtn = document.querySelector('.turbo-boost-btn');
+        const turboBoostAnimation = document.querySelector('.turbo-boost-animation');
+        
+        // Secret Konami code sequence: up, up, down, down, left, right, left, right, B, A
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+        
+        // Track key presses for Konami code
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    activateTurboBoost();
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+        
+        // Turbo Boost button click
+        turboBoostBtn.addEventListener('click', activateTurboBoost);
+        
+        function activateTurboBoost() {
+            // Racing car animation
+            turboBoostAnimation.classList.add('active');
+            
+            // Change site colors temporarily
+            document.documentElement.style.setProperty('--primary', '#2ecc71');
+            
+            // Reset after animation
+            setTimeout(() => {
+                turboBoostAnimation.classList.remove('active');
+                document.documentElement.style.setProperty('--primary', '#e74c3c');
+            }, 5000);
+            
+            // Fun message
+            alert('VROOOOM! You found the AutoSquad Turbo Boost!');
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Simulate video background with placeholder
+        // In a real implementation, you'd remove this and use an actual video element
+        const videoPlaceholder = document.querySelector('.video-background');
+        if (videoPlaceholder) {
+            // Add a slight zoom animation to simulate video movement
+            setInterval(() => {
+                const scale = 1 + Math.sin(Date.now() / 10000) * 0.05;
+                videoPlaceholder.style.transform = `translateX(-50%) translateY(-50%) scale(${scale})`;
+            }, 100);
+        }
+    </script>
+
+    <script>
+        // Translation dictionary for supported languages
+        const translations = {
+            en: {
+                heroTitle: "Accelerate your Vision",
+                heroDesc: "Empowering automotive and embedded industries with scalable, high-performance software solutions.",
+                heroBtn: "Explore Our Services",
+                servicesTitle: "Our Services",
+                servicesDesc: "We offer a comprehensive range of automotive services to meet all your vehicle needs",
+                service1Title: "Embedded System Development",
+                service1Desc: "End-to-end design and development of custom embedded hardware and firmware tailored for your application needs.",
+                service2Title: "Firmware Optimization & Integration",
+                service2Desc: "Boost performance and efficiency with expertly optimized firmware, seamless hardware-software integration, and real-time system tuning.",
+                service3Title: "IoT & Connectivity Solutions",
+                service3Desc: "Enable smart functionality with robust IoT integration, including wireless protocols like Bluetooth, Wi-Fi, LoRa, and secure cloud connectivity.",
+                aboutTitle: "About AutoSquad",
+                aboutDesc1: "At AutoSquad, we build smart, powerful embedded systems that drive innovation.From concept to code to launch, we help companies create faster, smarter, and more connected products.",
+                aboutDesc2: "Our team lives at the edge of technology, delivering custom solutions that power everything from cars to wearables. ",
+                aboutDesc3: "We’re fast, focused, and all-in on shaping the future with embedded tech.",
+                contactTitle: "Contact Us",
+                contactDesc: "Reach out to learn more about how we can help with your automotive needs",
+                footerText: "© 2025 AutoSquad. All Rights Reserved."
+            },
+            es: {
+                heroTitle: "Acelera tu Visión",
+                heroDesc: "AutoSquad ofrece servicios de automóviles de primera calidad, mantenimiento y mejoras para mantener tu vehículo en su máximo rendimiento.",
+                heroBtn: "Explora Nuestros Servicios",
+                servicesTitle: "Nuestros Servicios",
+                servicesDesc: "Ofrecemos una amplia gama de servicios automotrices para satisfacer todas tus necesidades vehiculares",
+                service1Title: "Desarrollo de Sistemas Embebidos",
+                service1Desc: "Diseño y desarrollo de hardware y firmware embebidos personalizados adaptados a tus necesidades.",
+                service2Title: "Optimización e Integración de Firmware",
+                service2Desc: "Mejora el rendimiento y la eficiencia con firmware optimizado, integración hardware-software y ajuste en tiempo real.",
+                service3Title: "Soluciones de IoT y Conectividad",
+                service3Desc: "Habilita funcionalidades inteligentes con integración robusta de IoT, incluyendo protocolos inalámbricos como Bluetooth, Wi-Fi, LoRa y conectividad segura en la nube.",
+                aboutTitle: "Acerca de AutoSquad",
+                aboutDesc1: "En AutoSquad, construimos sistemas embebidos inteligentes y potentes que impulsan la innovación. Desde el concepto hasta el código y el lanzamiento, ayudamos a las empresas a crear productos más rápidos, inteligentes y conectados.",
+                aboutDesc2: "Nuestro equipo vive al borde de la tecnología, entregando soluciones personalizadas que alimentan todo, desde autos hasta dispositivos portátiles.",
+                aboutDesc3: "Somos rápidos, enfocados y totalmente comprometidos con dar forma al futuro con tecnología embebida.",
+                contactTitle: "Contáctanos",
+                contactDesc: "Comunícate para saber más sobre cómo podemos ayudarte con tus necesidades automotrices",
+                footerText: "© 2025 AutoSquad. Todos los derechos reservados."
+            },
+            fr: {
+                heroTitle: "Accélérez votre Vision",
+                heroDesc: "AutoSquad fournit des services automobiles de premier ordre, maintenance et améliorations pour garder votre véhicule à son meilleur niveau.",
+                heroBtn: "Découvrez Nos Services",
+                servicesTitle: "Nos Services",
+                servicesDesc: "Nous offrons une gamme complète de services automobiles pour répondre à tous vos besoins",
+                service1Title: "Développement de Systèmes Embarqués",
+                service1Desc: "Conception et développement de matériel et firmware embarqués personnalisés adaptés à vos besoins.",
+                service2Title: "Optimisation et Intégration du Firmware",
+                service2Desc: "Améliorez les performances et l'efficacité avec un firmware optimisé, une intégration matériel-logiciel et un réglage en temps réel.",
+                service3Title: "Solutions IoT et Connectivité",
+                service3Desc: "Activez des fonctionnalités intelligentes avec une intégration IoT robuste, y compris des protocoles sans fil comme Bluetooth, Wi-Fi, LoRa et une connectivité cloud sécurisée.",
+                aboutTitle: "À propos d'AutoSquad",
+                aboutDesc1: "Chez AutoSquad, nous construisons des systèmes embarqués intelligents et puissants qui stimulent l'innovation. Du concept au code en passant par le lancement, nous aidons les entreprises à créer des produits plus rapides, plus intelligents et plus connectés.",
+                aboutDesc2: "Notre équipe vit à la pointe de la technologie, fournissant des solutions personnalisées qui alimentent tout, des voitures aux appareils portables.",
+                aboutDesc3: "Nous sommes rapides, concentrés et entièrement engagés à façonner l'avenir avec la technologie embarquée.",
+                contactTitle: "Contactez-nous",
+                contactDesc: "Contactez-nous pour en savoir plus sur la façon dont nous pouvons vous aider avec vos besoins automobiles",
+                footerText: "© 2025 AutoSquad. Tous droits réservés."
+            },
+            de: {
+                heroTitle: "Beschleunige deine Vision",
+                heroDesc: "AutoSquad bietet erstklassige Autodienste, Wartung und Upgrades, um dein Fahrzeug auf Höchstleistung zu halten.",
+                heroBtn: "Entdecke Unsere Dienstleistungen",
+                servicesTitle: "Unsere Dienstleistungen",
+                servicesDesc: "Wir bieten ein umfassendes Angebot an Autodiensten, um alle deine Fahrzeugbedürfnisse zu erfüllen",
+                service1Title: "Entwicklung eingebetteter Systeme",
+                service1Desc: "End-to-End-Design und Entwicklung von kundenspezifischer eingebetteter Hardware und Firmware, die auf deine Anwendung zugeschnitten ist.",
+                service2Title: "Firmware-Optimierung & Integration",
+                service2Desc: "Steigere Leistung und Effizienz mit fachmännisch optimierter Firmware, nahtloser Hardware-Software-Integration und Echtzeit-Systemabstimmung.",
+                service3Title: "IoT- & Konnektivitätslösungen",
+                service3Desc: "Ermögliche intelligente Funktionen mit robuster IoT-Integration, einschließlich drahtloser Protokolle wie Bluetooth, Wi-Fi, LoRa und sicherer Cloud-Konnektivität.",
+                aboutTitle: "Über AutoSquad",
+                aboutDesc1: "Bei AutoSquad bauen wir intelligente, leistungsstarke eingebettete Systeme, die Innovation vorantreiben. Vom Konzept bis zum Code bis zum Start helfen wir Unternehmen, schnellere, intelligentere und vernetztere Produkte zu schaffen.",
+                aboutDesc2: "Unser Team lebt am Puls der Technologie und liefert maßgeschneiderte Lösungen, die alles von Autos bis zu Wearables antreiben.",
+                aboutDesc3: "Wir sind schnell, fokussiert und voll und ganz darauf ausgerichtet, die Zukunft mit eingebetteter Technik zu gestalten.",
+                contactTitle: "Kontaktieren Sie uns",
+                contactDesc: "Kontaktieren Sie uns, um mehr darüber zu erfahren, wie wir Ihnen bei Ihren Automobilbedürfnissen helfen können",
+                footerText: "© 2025 AutoSquad. Alle Rechte vorbehalten."
+            },
+            zh: {
+                heroTitle: "加速您的愿景",
+                heroDesc: "AutoSquad 提供一流的汽车服务、维护和升级，保持您的车辆处于最佳性能状态。",
+                heroBtn: "探索我们的服务",
+                servicesTitle: "我们的服务",
+                servicesDesc: "我们提供全面的汽车服务，满足您的所有车辆需求",
+                service1Title: "嵌入式系统开发",
+                service1Desc: "为您的应用需求量身定制的端到端嵌入式硬件和固件设计与开发。",
+                service2Title: "固件优化与集成",
+                service2Desc: "通过专业优化的固件、无缝的硬件软件集成和实时系统调优提升性能和效率。",
+                service3Title: "物联网与连接解决方案",
+                service3Desc: "通过强大的物联网集成实现智能功能，包括蓝牙、Wi-Fi、LoRa等无线协议和安全的云连接。",
+                aboutTitle: "关于 AutoSquad",
+                aboutDesc1: "在 AutoSquad，我们构建智能强大的嵌入式系统，推动创新。从概念到代码再到发布，我们帮助公司创造更快、更智能、更互联的产品。",
+                aboutDesc2: "我们的团队处于技术前沿，提供定制解决方案，涵盖从汽车到可穿戴设备的所有领域。",
+                aboutDesc3: "我们快速、专注，全力以赴塑造嵌入式技术的未来。",
+                contactTitle: "联系我们",
+                contactDesc: "联系我们，了解更多关于我们如何帮助您的汽车需求的信息",
+                footerText: "© 2025 AutoSquad。版权所有。"
+            },
+            ja: {
+                heroTitle: "ビジョンを加速する",
+                heroDesc: "AutoSquadは、車両の最高のパフォーマンスを維持するための最高のカーサービス、メンテナンス、アップグレードを提供します。",
+                heroBtn: "サービスを探る",
+                servicesTitle: "私たちのサービス",
+                servicesDesc: "あらゆる車両のニーズに対応する包括的な自動車サービスを提供しています",
+                service1Title: "組み込みシステム開発",
+                service1Desc: "アプリケーションのニーズに合わせたカスタム組み込みハードウェアとファームウェアのエンドツーエンド設計と開発。",
+                service2Title: "ファームウェアの最適化と統合",
+                service2Desc: "専門的に最適化されたファームウェア、シームレスなハードウェアとソフトウェアの統合、リアルタイムシステムチューニングでパフォーマンスと効率を向上させます。",
+                service3Title: "IoTおよび接続ソリューション",
+                service3Desc: "Bluetooth、Wi-Fi、LoRaなどのワイヤレスプロトコルや安全なクラウド接続を含む堅牢なIoT統合でスマート機能を実現します。",
+                aboutTitle: "AutoSquadについて",
+                aboutDesc1: "AutoSquadでは、革新を推進するスマートで強力な組み込みシステムを構築しています。コンセプトからコード、ローンチまで、より速く、よりスマートで、より接続された製品の作成を支援します。",
+                aboutDesc2: "私たちのチームは技術の最先端に立ち、車からウェアラブルまであらゆるものに電力を供給するカスタムソリューションを提供しています。",
+                aboutDesc3: "私たちは迅速で集中しており、組み込み技術で未来を形作ることに全力を尽くしています。",
+                contactTitle: "お問い合わせ",
+                contactDesc: "自動車のニーズにどのように対応できるかについて詳しく知るには、お問い合わせください",
+                footerText: "© 2025 AutoSquad。無断転載を禁じます。"
+            },
+            ru: {
+                heroTitle: "Ускорьте свое видение",
+                heroDesc: "AutoSquad предоставляет первоклассные автомобильные услуги, техническое обслуживание и обновления, чтобы поддерживать ваш автомобиль в отличном состоянии.",
+                heroBtn: "Изучите наши услуги",
+                servicesTitle: "Наши услуги",
+                servicesDesc: "Мы предлагаем широкий спектр автомобильных услуг, чтобы удовлетворить все ваши потребности",
+                service1Title: "Разработка встроенных систем",
+                service1Desc: "Полный цикл проектирования и разработки пользовательского встроенного оборудования и прошивки, адаптированных к вашим потребностям.",
+                service2Title: "Оптимизация и интеграция прошивки",
+                service2Desc: "Повышайте производительность и эффективность с помощью профессионально оптимизированной прошивки, бесшовной интеграции аппаратного и программного обеспечения и настройки системы в реальном времени.",
+                service3Title: "IoT и решения для подключения",
+                service3Desc: "Обеспечьте умные функции с помощью надежной интеграции IoT, включая беспроводные протоколы, такие как Bluetooth, Wi-Fi, LoRa, и безопасное облачное подключение.",
+                aboutTitle: "О AutoSquad",
+                aboutDesc1: "В AutoSquad мы создаем умные и мощные встроенные системы, которые стимулируют инновации. От концепции до кода и запуска мы помогаем компаниям создавать более быстрые, умные и подключенные продукты.",
+                aboutDesc2: "Наша команда находится на переднем крае технологий, предоставляя индивидуальные решения, которые питают все, от автомобилей до носимых устройств.",
+                aboutDesc3: "Мы быстрые, сосредоточенные и полностью вовлечены в формирование будущего с помощью встроенных технологий.",
+                contactTitle: "Свяжитесь с нами",
+                contactDesc: "Свяжитесь с нами, чтобы узнать больше о том, как мы можем помочь с вашими автомобильными потребностями",
+                footerText: "© 2025 AutoSquad. Все права защищены."
+            },
+            ar: {
+                heroTitle: "سرّع رؤيتك",
+                heroDesc: "تقدم AutoSquad خدمات سيارات وصيانة وترقيات من الدرجة الأولى للحفاظ على أداء سيارتك في أفضل حال.",
+                heroBtn: "استكشف خدماتنا",
+                servicesTitle: "خدماتنا",
+                servicesDesc: "نقدم مجموعة شاملة من خدمات السيارات لتلبية جميع احتياجات سيارتك",
+                service1Title: "تطوير الأنظمة المدمجة",
+                service1Desc: "تصميم وتطوير الأجهزة والبرامج المدمجة المخصصة لتلبية احتياجات تطبيقك.",
+                service2Title: "تحسين ودمج البرامج الثابتة",
+                service2Desc: "عزز الأداء والكفاءة باستخدام البرامج الثابتة المحسنة بشكل احترافي، والتكامل السلس بين الأجهزة والبرامج، وضبط النظام في الوقت الحقيقي.",
+                service3Title: "حلول إنترنت الأشياء والاتصال",
+                service3Desc: "تمكين الوظائف الذكية من خلال تكامل إنترنت الأشياء القوي، بما في ذلك بروتوكولات لاسلكية مثل Bluetooth وWi-Fi وLoRa والاتصال السحابي الآمن.",
+                aboutTitle: "حول AutoSquad",
+                aboutDesc1: "في AutoSquad، نبني أنظمة مدمجة ذكية وقوية تدفع الابتكار. من المفهوم إلى الكود إلى الإطلاق، نساعد الشركات على إنشاء منتجات أسرع وأكثر ذكاءً وأكثر اتصالاً.",
+                aboutDesc2: "يعيش فريقنا على حافة التكنولوجيا، ويقدم حلولاً مخصصة تغذي كل شيء من السيارات إلى الأجهزة القابلة للارتداء.",
+                aboutDesc3: "نحن سريعون ومركزون ومكرسون تمامًا لتشكيل المستقبل باستخدام التكنولوجيا المدمجة.",
+                contactTitle: "اتصل بنا",
+                contactDesc: "تواصل معنا لمعرفة المزيد حول كيفية مساعدتنا في تلبية احتياجات سيارتك",
+                footerText: "© 2025 AutoSquad. جميع الحقوق محفوظة."
+            }
+        };
+
+        // Function to update text content based on selected language
+        function updateLanguage(lang) {
+            const t = translations[lang] || translations['en'];
+            document.querySelector('.hero h1').textContent = t.heroTitle;
+            document.querySelector('.hero p').textContent = t.heroDesc;
+            document.querySelector('.hero .btn').textContent = t.heroBtn;
+            document.querySelector('.section-title h2').textContent = t.servicesTitle;
+            document.querySelector('.section-title p').textContent = t.servicesDesc;
+            const serviceCards = document.querySelectorAll('.service-card');
+            if (serviceCards.length >= 3) {
+                serviceCards[0].querySelector('h3').textContent = t.service1Title;
+                serviceCards[0].querySelector('p').textContent = t.service1Desc;
+                serviceCards[1].querySelector('h3').textContent = t.service2Title;
+                serviceCards[1].querySelector('p').textContent = t.service2Desc;
+                serviceCards[2].querySelector('h3').textContent = t.service3Title;
+                serviceCards[2].querySelector('p').textContent = t.service3Desc;
+            }
+            document.querySelector('.about-content h2').textContent = t.aboutTitle;
+            const aboutParagraphs = document.querySelectorAll('.about-content p');
+            if (aboutParagraphs.length >= 3) {
+                aboutParagraphs[0].textContent = t.aboutDesc1;
+                aboutParagraphs[1].textContent = t.aboutDesc2;
+                aboutParagraphs[2].textContent = t.aboutDesc3;
+            }
+            document.querySelector('#contact .section-title h2').textContent = t.contactTitle;
+            document.querySelector('#contact .section-title p').textContent = t.contactDesc;
+            document.querySelector('footer p').textContent = t.footerText;
+        }
+
+        // Event listener for language selector change
+        const languageSelector = document.getElementById('languageSelector');
+        languageSelector.addEventListener('change', (e) => {
+            updateLanguage(e.target.value);
+        });
+
+        // Initialize page with default language
+        updateLanguage(languageSelector.value);
+    </script>
+
+    <script>
+        // Login form handling
+        const loginForm = document.getElementById('loginForm');
+        const loginMessage = document.getElementById('loginMessage');
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginMessage.textContent = '';
+
+            const role = document.getElementById('roleSelect').value;
+            const username = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+
+            if (!username || !password) {
+                loginMessage.textContent = 'Please enter username and password.';
+                loginMessage.style.color = 'red';
+                return;
+            }
+
+            try {
+const response = await fetch('http://127.0.0.1:5000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('role', data.role);
+
+                    loginMessage.textContent = 'Login successful! Redirecting...';
+                    loginMessage.style.color = 'green';
+
+                    // Redirect based on role
+                    if (data.role === 'admin') {
+                        window.location.href = 'frontend/admin.html';
+                    } else if (data.role === 'employee') {
+                        window.location.href = 'frontend/employee.html';
+                    } else {
+                        loginMessage.textContent = 'Unknown role.';
+                        loginMessage.style.color = 'red';
+                    }
+                } else {
+                    loginMessage.textContent = data.error || 'Login failed.';
+                    loginMessage.style.color = 'red';
+                }
+            } catch (error) {
+                loginMessage.textContent = 'Error connecting to server.';
+                loginMessage.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

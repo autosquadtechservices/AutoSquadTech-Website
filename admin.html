@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Attendance Records - AutoSquad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('../Assets/Emp-Ad-BG.png') no-repeat center center fixed;
+            background-size: cover;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 0;
+        }
+        h2, table, #message, #logoutLink {
+            position: relative;
+            z-index: 1;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #e74c3c;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        #message {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        #logoutLink {
+            display: block;
+            margin-top: 2rem;
+            text-align: center;
+            color: #e74c3c;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h2>Attendance Records</h2>
+    <table id="recordsTable">
+        <thead>
+            <tr>
+                <th>User Email</th>
+                <th>Date</th>
+                <th>Day</th>
+                <th>Login Time</th>
+                <th>Logout Time</th>
+                <th>Total Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Records will be populated here -->
+        </tbody>
+    </table>
+    <div id="message"></div>
+    <div id="logoutLink">Logout</div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        const messageDiv = document.getElementById('message');
+        const recordsTableBody = document.querySelector('#recordsTable tbody');
+        const logoutLink = document.getElementById('logoutLink');
+
+        if (!token) {
+            alert('You are not logged in. Redirecting to sign in.');
+            window.location.href = 'signin.html';
+        }
+
+        async function fetchRecords() {
+            messageDiv.textContent = '';
+            try {
+                const response = await fetch('http://localhost:5000/api/admin/attendance', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    recordsTableBody.innerHTML = '';
+                    data.forEach(record => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${record.userEmail}</td>
+                            <td>${record.date}</td>
+                            <td>${record.day}</td>
+                            <td>${record.loginTime}</td>
+                            <td>${record.logoutTime || '-'}</td>
+                            <td>${record.totalTime || '-'}</td>
+                        `;
+                        recordsTableBody.appendChild(tr);
+                    });
+                } else {
+                    messageDiv.style.color = 'red';
+                    messageDiv.textContent = data.message || 'Failed to fetch records.';
+                }
+            } catch (error) {
+                messageDiv.style.color = 'red';
+                messageDiv.textContent = 'Error connecting to server.';
+            }
+        }
+
+        logoutLink.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = 'signin.html';
+        });
+
+        fetchRecords();
+    </script>
+</body>
+</html>
