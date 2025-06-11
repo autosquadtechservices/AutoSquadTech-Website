@@ -1,13 +1,13 @@
-
 require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const sqlite3 = require('sqlite3').verbose();
+const path = require('path');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -27,71 +27,9 @@ app.use(cors({
 }));
 app.use(bodyParser.json());
 
-// Setup Mongoose connection to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/autosquad', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log('MongoDB connected');
-}).catch((err) => {
-  console.error('MongoDB connection error:', err);
-});
-
-// User schema
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    match: /.+\@.+\..+/,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    enum: ['employee', 'admin'],
-    required: true,
-    default: 'employee',
-  },
-  resetToken: String,
-  resetTokenExpiry: Date,
-});
-
-const User = mongoose.model('User', userSchema);
-
-// Attendance schema
-const attendanceSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  loginTime: {
-    type: Date,
-    required: true,
-  },
-  logoutTime: Date,
-});
-
-const Attendance = mongoose.model('Attendance', attendanceSchema);
-
-// Add this block once to create a test user
-(async () => {
-  const email = 'test@example.com';
-  const password = await bcrypt.hash('password123', 10);
-  const existingUser = await User.findOne({ email });
-  if (!existingUser) {
-    const user = new User({ email, password, role: 'employee' });
-    await user.save();
-    console.log('Test user created:', email);
-  }
-})();
-
 // Helper function to generate JWT
 function generateToken(user) {
-  return jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  return jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 }
 
 // Middleware for role-based access control
@@ -102,7 +40,11 @@ function authorizeRole(role) {
 
     const token = authHeader.split(' ')[1];
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) return res.status(401).json({ message: 'Invalid token' });
+      if (err) {
+        console.error('JWT verification error:', err);
+        return res.status(401).json({ message: 'Invalid token' });
+      }
+      console.log('Decoded token:', decoded);
       if (decoded.role !== role) return res.status(403).json({ message: 'Forbidden' });
       req.user = decoded;
       next();
@@ -110,28 +52,58 @@ function authorizeRole(role) {
   };
 }
 
-// Routes
+// Setup SQLite database
+const dbPath = path.resolve(__dirname, 'database.sqlite');
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error('Error opening SQLite database:', err.message);
+  } else {
+    console.log('Connected to SQLite database.');
+  }
+});
+
+// Create tables if not exist
+db.serialize(() => {
+  db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    role TEXT CHECK(role IN ('employee', 'admin')) NOT NULL DEFAULT 'employee',
+    resetToken TEXT,
+    resetTokenExpiry INTEGER
+  )`);
+
+  db.run(`CREATE TABLE IF NOT EXISTS attendance (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER NOT NULL,
+    loginTime INTEGER NOT NULL,
+    logoutTime INTEGER,
+    FOREIGN KEY(userId) REFERENCES users(id)
+  )`);
+});
 
 // Sign-in route
-app.post('/api/signin', async (req, res) => {
+app.post('/api/signin', (req, res) => {
   const { email, password } = req.body;
-  try {
-    const user = await User.findOne({ email });
+  if (!email || !password) return res.status(400).json({ message: 'Email and password are required' });
+
+  db.get('SELECT * FROM users WHERE email = ?', [email], async (err, user) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
     if (!user) return res.status(401).json({ message: 'Invalid email or password' });
 
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(401).json({ message: 'Invalid email or password' });
 
     const token = generateToken(user);
-    res.json({ token, user: { id: user._id, email: user.email, role: user.role } });
-  } catch (error) {
-    console.error('Signin error:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
+    res.json({ token, user: { id: user.id, email: user.email, role: user.role } });
+  });
 });
 
 // Add new user route
-app.post('/api/users', async (req, res) => {
+app.post('/api/users', (req, res) => {
   const { email, password, role } = req.body;
   if (!email || !password || !role) {
     return res.status(400).json({ message: 'Email, password, and role are required' });
@@ -139,158 +111,187 @@ app.post('/api/users', async (req, res) => {
   if (!['employee', 'admin'].includes(role)) {
     return res.status(400).json({ message: 'Role must be either employee or admin' });
   }
-  try {
-    const existingUser = await User.findOne({ email });
+
+  db.get('SELECT * FROM users WHERE email = ?', [email], async (err, existingUser) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
     if (existingUser) {
       return res.status(400).json({ message: 'User with this email already exists' });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ email, password: hashedPassword, role });
-    await newUser.save();
-    res.status(201).json({ message: 'User created successfully', user: { id: newUser._id, email: newUser.email, role: newUser.role } });
-  } catch (error) {
-    console.error('Create user error:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
+    db.run('INSERT INTO users (email, password, role) VALUES (?, ?, ?)', [email, hashedPassword, role], function(err) {
+      if (err) {
+        console.error('DB error:', err);
+        return res.status(500).json({ message: 'Server error' });
+      }
+      res.status(201).json({ message: 'User created successfully', user: { id: this.lastID, email, role } });
+    });
+  });
 });
 
 // Employee attendance login
-app.post('/api/attendance/login', authorizeRole('employee'), async (req, res) => {
-  try {
-    // Check if already logged in (no logoutTime)
-    const existingAttendance = await Attendance.findOne({
-      userId: req.user.id,
-      logoutTime: null,
-    });
+app.post('/api/attendance/login', authorizeRole('employee'), (req, res) => {
+  const userId = req.user.id;
+  const now = Date.now();
+
+  db.get('SELECT * FROM attendance WHERE userId = ? AND logoutTime IS NULL', [userId], (err, existingAttendance) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
     if (existingAttendance) {
       return res.status(400).json({ message: 'Already logged in for today.' });
     }
-    // Create new attendance record
-    const attendance = new Attendance({
-      userId: req.user.id,
-      loginTime: new Date(),
-      logoutTime: null,
+
+    db.run('INSERT INTO attendance (userId, loginTime, logoutTime) VALUES (?, ?, NULL)', [userId, now], function(err) {
+      if (err) {
+        console.error('DB error:', err);
+        return res.status(500).json({ message: 'Server error' });
+      }
+      res.json({ message: 'Login time recorded.', attendanceId: this.lastID });
     });
-    await attendance.save();
-    res.json({ message: 'Login time recorded.', attendance });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+  });
 });
 
 // Employee attendance logout
-app.post('/api/attendance/logout', authorizeRole('employee'), async (req, res) => {
-  try {
-    // Find the latest open attendance record
-    const attendance = await Attendance.findOne({
-      userId: req.user.id,
-      logoutTime: null,
-    }).sort({ loginTime: -1 });
+app.post('/api/attendance/logout', authorizeRole('employee'), (req, res) => {
+  const userId = req.user.id;
+  const now = Date.now();
+
+  db.get('SELECT * FROM attendance WHERE userId = ? AND logoutTime IS NULL ORDER BY loginTime DESC LIMIT 1', [userId], (err, attendance) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
     if (!attendance) {
       return res.status(400).json({ message: 'No active login found.' });
     }
-    attendance.logoutTime = new Date();
-    await attendance.save();
-    res.json({ message: 'Logout time recorded.', attendance });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+
+    db.run('UPDATE attendance SET logoutTime = ? WHERE id = ?', [now, attendance.id], function(err) {
+      if (err) {
+        console.error('DB error:', err);
+        return res.status(500).json({ message: 'Server error' });
+      }
+      res.json({ message: 'Logout time recorded.', attendanceId: attendance.id });
+    });
+  });
 });
 
 // Get today's attendance for the logged-in employee
-app.get('/api/attendance/today', authorizeRole('employee'), async (req, res) => {
-  try {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
+app.get('/api/attendance/today', authorizeRole('employee'), (req, res) => {
+  const userId = req.user.id;
+  const startOfDay = new Date();
+  startOfDay.setHours(0, 0, 0, 0);
+  const endOfDay = new Date();
+  endOfDay.setHours(23, 59, 59, 999);
 
-    const attendance = await Attendance.findOne({
-      userId: req.user.id,
-      loginTime: { $gte: startOfDay, $lte: endOfDay },
-    }).sort({ loginTime: -1 });
-
-    res.json({ attendance });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+  db.get(
+    `SELECT * FROM attendance WHERE userId = ? AND loginTime BETWEEN ? AND ? ORDER BY loginTime DESC LIMIT 1`,
+    [userId, startOfDay.getTime(), endOfDay.getTime()],
+    (err, attendance) => {
+      if (err) {
+        console.error('DB error:', err);
+        return res.status(500).json({ message: 'Server error' });
+      }
+      res.json({ attendance });
+    }
+  );
 });
 
 // Admin get attendance records
-app.get('/api/admin/attendance', authorizeRole('admin'), async (req, res) => {
-  try {
-    const records = await Attendance.find()
-      .populate('userId', 'email')
-      .sort({ loginTime: -1 });
-
-    // Format records with date, day, total working time
-    const formattedRecords = records.map((record) => {
-      const login = record.loginTime;
-      const logout = record.logoutTime;
-      const date = login.toLocaleDateString('en-GB'); // dd/mm/yyyy
-      const day = login.toLocaleDateString('en-GB', { weekday: 'long' });
-      let totalTime = null;
-      if (logout) {
-        const diffMs = logout - login;
-        const diffHrs = Math.floor(diffMs / 3600000);
-        const diffMins = Math.floor((diffMs % 3600000) / 60000);
-        totalTime = `${diffHrs}h ${diffMins}m`;
+app.get('/api/admin/attendance', authorizeRole('admin'), (req, res) => {
+  db.all(
+    `SELECT attendance.id, users.email as userEmail, attendance.loginTime, attendance.logoutTime
+     FROM attendance
+     JOIN users ON attendance.userId = users.id
+     ORDER BY attendance.loginTime DESC`,
+    [],
+    (err, records) => {
+      if (err) {
+        console.error('DB error:', err);
+        return res.status(500).json({ message: 'Server error' });
       }
-      return {
-        id: record._id,
-        userEmail: record.userId.email,
-        date,
-        day,
-        loginTime: login.toLocaleTimeString('en-GB'),
-        logoutTime: logout ? logout.toLocaleTimeString('en-GB') : null,
-        totalTime,
-      };
-    });
 
-    res.json(formattedRecords);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+      const formattedRecords = records.map((record) => {
+        const login = new Date(record.loginTime);
+        const logout = record.logoutTime ? new Date(record.logoutTime) : null;
+        const date = login.toLocaleDateString('en-GB'); // dd/mm/yyyy
+        const day = login.toLocaleDateString('en-GB', { weekday: 'long' });
+        let totalTime = null;
+        if (logout) {
+          const diffMs = logout - login;
+          const diffHrs = Math.floor(diffMs / 3600000);
+          const diffMins = Math.floor((diffMs % 3600000) / 60000);
+          totalTime = `${diffHrs}h ${diffMins}m`;
+        }
+        return {
+          id: record.id,
+          userEmail: record.userEmail,
+          date,
+          day,
+          loginTime: login.toLocaleTimeString('en-GB'),
+          logoutTime: logout ? logout.toLocaleTimeString('en-GB') : null,
+          totalTime,
+        };
+      });
+
+      res.json(formattedRecords);
+    }
+  );
 });
 
 // Forgot password route
-app.post('/api/forgot-password', async (req, res) => {
+app.post('/api/forgot-password', (req, res) => {
   const { email } = req.body;
-  try {
-    const user = await User.findOne({ email });
+  db.get('SELECT * FROM users WHERE email = ?', [email], (err, user) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
     if (!user) return res.status(400).json({ message: 'Email not found' });
 
     const crypto = require('crypto');
     const resetToken = crypto.randomBytes(32).toString('hex');
     const resetTokenExpiry = Date.now() + 3600000; // 1 hour
 
-    user.resetToken = resetToken;
-    user.resetTokenExpiry = resetTokenExpiry;
-    await user.save();
+    db.run('UPDATE users SET resetToken = ?, resetTokenExpiry = ? WHERE id = ?', [resetToken, resetTokenExpiry, user.id], (err) => {
+      if (err) {
+        console.error('DB error:', err);
+        return res.status(500).json({ message: 'Server error' });
+      }
 
-    const frontendUrl = req.headers.origin || process.env.FRONTEND_URL || '';
-    const resetUrl = `${frontendUrl}/reset_password.html?token=${resetToken}&email=${email}`;
+      const frontendUrl = req.headers.origin || process.env.FRONTEND_URL || '';
+      const resetUrl = `${frontendUrl}/reset_password.html?token=${resetToken}&email=${email}`;
 
-    const mailOptions = {
-      from: process.env.GMAIL_USER,
-      to: email,
-      subject: 'Password Reset Request',
-      html: `<p>You requested a password reset. Click <a href="${resetUrl}">here</a> to reset your password. This link is valid for 1 hour.</p>`,
-    };
+      const mailOptions = {
+        from: process.env.GMAIL_USER,
+        to: email,
+        subject: 'Password Reset Request',
+        html: `<p>You requested a password reset. Click <a href="${resetUrl}">here</a> to reset your password. This link is valid for 1 hour.</p>`,
+      };
 
-    await transporter.sendMail(mailOptions);
-
-    res.json({ message: 'Password reset email sent' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Mail error:', error);
+          return res.status(500).json({ message: 'Server error' });
+        }
+        res.json({ message: 'Password reset email sent' });
+      });
+    });
+  });
 });
 
 // Reset password route
-app.post('/api/reset-password', async (req, res) => {
+app.post('/api/reset-password', (req, res) => {
   const { email, token, newPassword } = req.body;
-  try {
-    const user = await User.findOne({ email, resetToken: token });
+  db.get('SELECT * FROM users WHERE email = ? AND resetToken = ?', [email, token], async (err, user) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
     if (!user) return res.status(400).json({ message: 'Invalid token or email' });
 
     if (user.resetTokenExpiry < Date.now()) {
@@ -298,26 +299,27 @@ app.post('/api/reset-password', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    user.resetToken = null;
-    user.resetTokenExpiry = null;
-    await user.save();
-
-    res.json({ message: 'Password reset successful' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+    db.run('UPDATE users SET password = ?, resetToken = NULL, resetTokenExpiry = NULL WHERE id = ?', [hashedPassword, user.id], (err) => {
+      if (err) {
+        console.error('DB error:', err);
+        return res.status(500).json({ message: 'Server error' });
+      }
+      res.json({ message: 'Password reset successful' });
+    });
+  });
 });
 
 // Temporary debug endpoint to list all users
-app.get('/api/debug/users', async (req, res) => {
-  try {
-    const users = await User.find({}, 'email role');
+app.get('/api/debug/users', (req, res) => {
+  db.all('SELECT id, email, role FROM users', [], (err, users) => {
+    if (err) {
+      console.error('DB error:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
     res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error' });
-  }
+  });
 });
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
