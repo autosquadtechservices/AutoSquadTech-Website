@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - AutoSquad</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/favicon.ico" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e74c3c 0%, #34495e 100%); /* Updated colors */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .signin-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-placeholder {
+            width: 100%; /* Changed to full width */
+            height: auto; /* Maintain aspect ratio */
+            margin: 0 auto 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-placeholder img {
+            width: 100%; /* Ensure full visibility */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: contain; /* Adjust to fit */
+        }
+
+        .signin-title {
+            color: #333;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .signin-subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #e74c3c; /* Updated color */
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #e74c3c; /* Updated color */
+        }
+
+        .forgot-password {
+            color: #e74c3c; /* Updated color */
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #c0392b; /* Updated color */
+        }
+
+        .signin-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%); /* Updated to grey tones */
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.4); /* Updated color */
+        }
+
+        .signin-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(39, 174, 96, 0.1);
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="signin-container">
+        <div class="logo-section">
+            <div class="logo-placeholder">
+                <img src="Assets/Logo-New.png" alt="AutoSquad Logo" />
+            </div>
+            <h1 class="signin-title">Welcome Back</h1>
+            <p class="signin-subtitle">Sign in to your account</p>
+        </div>
+
+        <form id="signinForm" class="signin-form">
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="signin-btn" id="signinBtn">Sign In</button>
+
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+        </form>
+
+        <div class="signup-link">
+            Don't have an account? <a href="#" id="signupLink">Sign up here</a>
+        </div>
+    </div>
+
+    <script>
+        // Demo user credentials for different roles
+        const demoUsers = {
+            admin: {
+                email: 'admin@company.com',
+                password: 'admin123',
+                dashboard: '/admin-dashboard.html'
+            },
+            manager: {
+                email: 'manager@company.com',
+                password: 'manager123',
+                dashboard: '/manager-dashboard.html'
+            },
+            employee: {
+                email: 'employee@company.com',
+                password: 'employee123',
+                dashboard: '/employee-dashboard.html'
+            }
+        };
+
+        class SignInManager {
+            constructor() {
+                this.form = document.getElementById('signinForm');
+                this.submitBtn = document.getElementById('signinBtn');
+                this.errorMessage = document.getElementById('errorMessage');
+                this.successMessage = document.getElementById('successMessage');
+                this.emailInput = document.getElementById('email');
+                this.passwordInput = document.getElementById('password');
+                
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                const email = this.emailInput.value.trim();
+                const password = this.passwordInput.value;
+
+                if (!email || !password) {
+                    this.showMessage('error', 'Email and password are required');
+                    return;
+                }
+
+                // Simulate login
+                const user = demoUsers['employee']; // Default to employee for demo
+                if (email === user.email && password === user.password) {
+                    this.showMessage('success', 'Login successful! Redirecting...');
+                    // Simulate redirect
+                    setTimeout(() => {
+                        window.location.href = user.dashboard;
+                    }, 2000);
+                } else {
+                    this.showMessage('error', 'Invalid email or password');
+                }
+            }
+
+            showMessage(type, message) {
+                this.clearMessages();
+                const messageElement = type === 'error' ? this.errorMessage : this.successMessage;
+                messageElement.textContent = message;
+                messageElement.style.display = 'block';
+            }
+
+            clearMessages() {
+                this.errorMessage.style.display = 'none';
+                this.successMessage.style.display = 'none';
+            }
+        }
+
+        // Initialize the sign-in manager when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new SignInManager();
+        });
+    </script>
+</body>
+</html>

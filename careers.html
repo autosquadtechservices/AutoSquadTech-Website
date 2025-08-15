@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers - AutoSquad Technology Services</title>
+    <link rel="icon" type="image/x-icon" href="Assets/favicon.ico">
+    <style>
+        :root {
+            --primary: #e74c3c;
+            --secondary: #34495e;
+            --light: #f9f9f9;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo-company-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+        }
+
+        .company-name {
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--dark), var(--secondary));
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .job-listings {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .job-item {
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s;
+        }
+
+        .job-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .job-item:last-child {
+            border-bottom: none;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .job-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .job-meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .job-description {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .job-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            background: var(--light);
+            color: var(--dark);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .apply-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .apply-btn:hover {
+            background: #c0392b;
+        }
+
+        .culture-section {
+            background: var(--light);
+        }
+
+        .culture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .culture-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .culture-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .application-form {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: var(--success);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #219a52;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .job-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo-company-container">
+                    <img src="Assets/Logo-New.png" alt="AutoSquad Logo" class="logo-img">
+                    <div class="company-name">AutoSquad Tech</div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#benefits" class="scroll-link">Benefits</a></li>
+                    <li><a href="#openings" class="scroll-link">Open Positions</a></li>
+                    <li><a href="#culture" class="scroll-link">Culture</a></li>
+                    <li><a href="#apply" class="scroll-link">Apply Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Join Our Team at AutoSquad</h1>
+            <p>Shape the future of automotive technology with innovative minds and cutting-edge solutions</p>
+            <a href="#openings" class="apply-btn">View Open Positions</a>
+        </div>
+    </section>
+
+    <section id="benefits" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Work With Us</h2>
+                <p>We offer more than just a job - we offer a career with purpose and growth</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💡</div>
+                    <h3>Innovation First</h3>
+                    <p>Work on cutting-edge automotive and embedded systems projects that shape the future of mobility</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h3>Career Growth</h3>
+                    <p>Continuous learning opportunities, mentorship programs, and clear career progression paths</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏠</div>
+                    <h3>Flexible Work</h3>
+                    <p>Hybrid work model, flexible hours, and work-from-home options to maintain work-life balance</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Competitive Package</h3>
+                    <p>Attractive salary, performance bonuses, health insurance, and stock options</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🌍</div>
+                    <h3>Global Impact</h3>
+                    <p>Contribute to solutions that are deployed worldwide and make a real difference</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">👥</div>
+                    <h3>Great Team</h3>
+                    <p>Collaborate with passionate, talented professionals in a supportive environment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="openings" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Current Openings</h2>
+                <p>Find your perfect role and join our mission to revolutionize automotive technology</p>
+            </div>
+            
+            <div class="job-listings">
+                <div style="text-align: center; padding: 40px; color: #7f8c8d; margin: 0 auto;">
+                    <h3 style="color: var(--dark); margin-bottom: 15px;">No Current Openings</h3>
+                    <p>We don't have any open positions at the moment, but we're always looking for talented individuals to join our team.</p>
+                    <p>Please check back later or submit a general application below.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="culture" class="section culture-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Culture</h2>
+                <p>What makes AutoSquad a great place to work</p>
+            </div>
+            <div class="culture-grid">
+                <div class="culture-item">
+                    <div class="culture-icon">🚀</div>
+                    <h3>Innovation-Driven</h3>
+                    <p>We encourage experimentation and creative problem-solving</p>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-icon">🤝</div>
+                    <h3>Collaborative</h3>
+                    <p>Teamwork makes the dream work - we succeed together</p>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-icon">📚</div>
+                    <h3>Learning-Focused</h3>
+                    <p>Continuous improvement through knowledge sharing</p>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-icon">⚖️</div>
+                    <h3>Inclusive</h3>
+                    <p>Diversity drives innovation - everyone's voice matters</p>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-icon">🎯</div>
+                    <h3>Results-Oriented</h3>
+                    <p>We celebrate achievements and learn from challenges</p>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-icon">🌱</div>
+                    <h3>Sustainable</h3>
+                    <p>Building technology for a better tomorrow</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="apply" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Apply Now</h2>
+                <p>Ready to join our team? Submit your application below</p>
+            </div>
+            
+            <form class="application-form" id="applicationForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="position">Position Applying For *</label>
+                    <select id="position" name="position" required>
+                        <option value="">Select a position</option>
+                        <option value="general">General Application</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="experience">Years of Experience *</label>
+                    <select id="experience" name="experience" required>
+                        <option value="">Select experience level</option>
+                        <option value="0-1">0-1 years</option>
+                        <option value="2-3">2-3 years</option>
+                        <option value="4-5">4-5 years</option>
+                        <option value="5-7">5-7 years</option>
+                        <option value="7-10">7-10 years</option>
+                        <option value="10+">10+ years</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resume">Resume/CV (PDF, DOC, DOCX)</label>
+                    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+                </div>
+                
+                <div class="form-group">
+                    <label for="portfolio">Portfolio/LinkedIn URL</label>
+                    <input type="url" id="portfolio" name="portfolio" placeholder="https://linkedin.com/in/yourprofile">
+                </div>
+                
+                <div class="form-group">
+                    <label for="coverLetter">Cover Letter *</label>
+                    <textarea id="coverLetter" name="coverLetter" rows="6" required 
+                        placeholder="Tell us why you're interested in joining AutoSquad and what you can bring to our team..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AutoSquad Technology Services. All rights reserved.</p>
+            <p>Join us in shaping the future of automotive technology</p>
+        </div>
+    </footer>
+
+    <script>
+        // Form submission handling
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would typically send the form data to your backend
+            alert('Thank you for your application! We will review it and get back to you soon.');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Smooth scrolling for navigation links and buttons with class 'scroll-link'
+        document.querySelectorAll('.scroll-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Smooth scroll for "View Open Positions" button
+        document.querySelector('.apply-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector('#openings');
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
